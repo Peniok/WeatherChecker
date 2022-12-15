@@ -5,28 +5,24 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
-public class WeatherVisualizer : MonoBehaviour
+public class ForecastVisualizer : MonoBehaviour
 {
-    [SerializeField] Button button;
-    [SerializeField]TMP_InputField inputField;
-    [SerializeField] OpenWeatherRequester weatherRequester;
-    [SerializeField] Image weatherImage;
+    [SerializeField] Image[] icons;
+    [SerializeField] TextMeshProUGUI[] temperatures, times;
     [SerializeField] Sprite[] weatherIcons;
-    [SerializeField] TextMeshProUGUI temperatureText, temperatureMinText, temperatureMaxText;
-    [SerializeField] TextMeshProUGUI descriptionText, timeOfCheckingText;
-    [SerializeField] GameObject weatherInfoGameObject;
-    private void Start()
+
+    public void UpdateForecast(ForecastInfo forecastInfo)
     {
-        button.onClick.AddListener(CallSearch);
+        for (int i = 0; i < 3; i++)
+        {
+            SetSprite(forecastInfo,icons[i]);
+            temperatures[i].text = (int)forecastInfo.list[i].main.temp + "<sprite index=0>";
+            times[i].text = UnixTimeToDateTime(forecastInfo.list[i].dt)+"";
+        }
     }
-    public void CallSearch()
+    public void SetSprite(ForecastInfo weatherInfo, Image weatherImage)
     {
-        weatherRequester.CheckWeather(inputField.text);
-    }
-    public void UpdateInfo(WeatherInfo weatherInfo)
-    {
-        weatherInfoGameObject.SetActive(true);
-        int weatherid = weatherInfo.weather[0].id;
+        int weatherid = weatherInfo.list[0].weather[0].id;
         //Debug.Log(weatherid);
         if (weatherid < 300)
         {
@@ -64,13 +60,6 @@ public class WeatherVisualizer : MonoBehaviour
         {
             weatherImage.sprite = weatherIcons[8];
         }
-        temperatureText.text = (int)weatherInfo.main.temp + "<sprite index=0>";
-        temperatureMinText.text = "Min "+(int)weatherInfo.main.tempMin + "<sprite index=0>";
-        temperatureMaxText.text = "Max " + (int)weatherInfo.main.tempMax + "<sprite index=0>";
-
-        timeOfCheckingText.text = "Прогноз актуальний на " + Convert.ToString(UnixTimeToDateTime(Convert.ToDouble(weatherInfo.dt))); 
-
-        descriptionText.text = weatherInfo.weather[0].description;
     }
     public DateTime UnixTimeToDateTime(double UnixTime)
     {
