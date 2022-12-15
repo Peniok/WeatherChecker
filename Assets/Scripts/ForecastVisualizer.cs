@@ -20,7 +20,7 @@ public class ForecastVisualizer : MonoBehaviour
     }
     public void UpdateForecast(ForecastInfo forecastInfo)
     {
-        scrollRect.normalizedPosition = new Vector2(0,0);
+        scrollRect.normalizedPosition = new Vector2(0,1);
         for (int i = 0; i < forecastInfo.list.Length; i++)
         {
             ForecastElement forecastElement;
