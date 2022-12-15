@@ -7,58 +7,80 @@ using System;
 
 public class ForecastVisualizer : MonoBehaviour
 {
-    [SerializeField] Image[] icons;
-    [SerializeField] TextMeshProUGUI[] temperatures, times;
+    //[SerializeField] Image[] icons;
+    //[SerializeField] TextMeshProUGUI[] temperatures, times;
+    List<ForecastElement> forecastElements;
     [SerializeField] Sprite[] weatherIcons;
-
+    [SerializeField] GameObject forecastElementPrefab;
+    [SerializeField] Transform parentForForecast;
+    [SerializeField] ScrollRect scrollRect;
+    private void Awake()
+    {
+        forecastElements = new List<ForecastElement>();
+    }
     public void UpdateForecast(ForecastInfo forecastInfo)
     {
-        for (int i = 0; i < 3; i++)
+        scrollRect.normalizedPosition = new Vector2(0,0);
+        for (int i = 0; i < forecastInfo.list.Length; i++)
         {
-            SetSprite(forecastInfo,icons[i]);
-            temperatures[i].text = (int)forecastInfo.list[i].main.temp + "<sprite index=0>";
-            times[i].text = UnixTimeToDateTime(forecastInfo.list[i].dt)+"";
+            ForecastElement forecastElement;
+            if (i >= forecastElements.Count)
+            {
+                forecastElement = Instantiate(forecastElementPrefab, parentForForecast).GetComponent<ForecastElement>();
+                forecastElements.Add(forecastElement);
+            }
+            else
+            {
+                forecastElement = forecastElements[i];
+            }
+            forecastElement.SetInfo(GetSprite(forecastInfo.list[i]), (int)forecastInfo.list[i].main.temp, UnixTimeToDateTime(forecastInfo.list[i].dt) + "",parentForForecast);
         }
+        //for (int i = 0; i < 3; i++)
+        //{
+        //    SetSprite(forecastInfo,icons[i]);
+        //    temperatures[i].text = (int)forecastInfo.list[i].main.temp + "<sprite index=0>";
+        //    times[i].text = UnixTimeToDateTime(forecastInfo.list[i].dt)+"";
+        //}
     }
-    public void SetSprite(ForecastInfo weatherInfo, Image weatherImage)
+    public Sprite GetSprite(InfoForForecast infoForForecast)
     {
-        int weatherid = weatherInfo.list[0].weather[0].id;
+        int weatherid = infoForForecast.weather[0].id;
         //Debug.Log(weatherid);
         if (weatherid < 300)
         {
-            weatherImage.sprite = weatherIcons[0];
+            return weatherIcons[0];
         }
         else if (weatherid < 400)
         {
-            weatherImage.sprite = weatherIcons[1];
+            return weatherIcons[1];
         }
         else if (weatherid < 600)
         {
-            weatherImage.sprite = weatherIcons[2];
+            return weatherIcons[2];
         }
         else if (weatherid < 700)
         {
-            weatherImage.sprite = weatherIcons[3];
+            return weatherIcons[3];
         }
         else if (weatherid < 800)
         {
-            weatherImage.sprite = weatherIcons[4];
+            return weatherIcons[4];
         }
         else if (weatherid == 800)
         {
-            weatherImage.sprite = weatherIcons[5];
+            return weatherIcons[5];
         }
         else if (weatherid == 801)
         {
-            weatherImage.sprite = weatherIcons[6];
+            return weatherIcons[6];
         }
         else if (weatherid == 802)
         {
-            weatherImage.sprite = weatherIcons[7];
+            return weatherIcons[7];
         }
         else
         {
-            weatherImage.sprite = weatherIcons[8];
+            return weatherIcons[8];
         }
     }
     public DateTime UnixTimeToDateTime(double UnixTime)

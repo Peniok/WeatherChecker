@@ -9,10 +9,10 @@ public class ForecastElement : MonoBehaviour
     [SerializeField] Image icon;
     [SerializeField] TextMeshProUGUI temperatureText, timeText;
     
-    public void SetInfo(Sprite sprite, int temperature, string time)
+    public void SetInfo(Sprite sprite, int temperature, string time, Transform parent)
     {
         icon.sprite = sprite;
-        temperatureText.text = temperature.ToString();
+        temperatureText.text = temperature + "<sprite index=0>";
         timeText.text = time;
     }
 }

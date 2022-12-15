@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 5448558152833209348}
   - component: {fileID: 5448558152833209370}
   - component: {fileID: 5448558152833209371}
+  - component: {fileID: 696322574743126690}
   m_Layer: 5
   m_Name: Forecast
   m_TagString: Untagged
@@ -212,6 +213,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &696322574743126690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5448558152833209349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d7012df40184d4ebf57857572463f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 5716071439050025297}
+  temperatureText: {fileID: 6720894868570527201}
+  timeText: {fileID: 1450670109162077929}
 --- !u!1 &7945142973119170396
 GameObject:
   m_ObjectHideFlags: 0
